@@ -44,7 +44,14 @@ fn main() -> Result<(), reqwest::Error> {
         }
     }
 
-    println!("{:?}", records);
+    let mut sorted: Vec<_> = records.into_iter().collect();
+    sorted.sort_by(|x, y| x.0.cmp(&y.0));
+
+    println!(
+        "{}",
+        sorted.iter().fold(String::new(), |acc, arg| acc
+            + &format!("{:>4} | {}\n", arg.1, arg.0))
+    );
 
     Ok(())
 }
