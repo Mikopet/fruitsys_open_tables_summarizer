@@ -1,5 +1,3 @@
-extern crate dotenv;
-
 use dotenv::dotenv;
 use scraper::{Html, Selector};
 use std::collections::HashMap;
@@ -35,12 +33,12 @@ fn main() -> Result<(), reqwest::Error> {
         .next()
         .unwrap();
 
-    let mut records: HashMap<String, u8> = HashMap::new();
+    let mut records: HashMap<String, usize> = HashMap::new();
     for element in table.select(&Selector::parse("tr").unwrap()) {
         let record = element.text().collect::<Vec<_>>();
         if record.len() == 3 {
             let count = records.entry(record[0].into()).or_insert(0);
-            *count += record[1].parse::<u8>().unwrap();
+            *count += record[1].parse::<usize>().unwrap();
         }
     }
 
